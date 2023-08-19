@@ -16,12 +16,21 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 //----------------------------------------------------------------------------
-#include <Arduino.h>
+#include "main.h"
 
+#include <Arduino.h>
 #ifdef LILYGOTAMOLED
 #include "gfx/lv_setup.h"
 #include <lvgl.h>
 #endif
+
+#include <ArduinoNvs.h>
+#include <services/ble/discovery_service.h>
+
+void loadSettings()
+{
+  /// @todo load settings from NVS
+}
 
 void setup()
 {
@@ -43,6 +52,11 @@ void setup()
   lv_label_set_text(label2, "It is a circularly scrolling text. ");
   lv_obj_align(label2, LV_ALIGN_CENTER, 0, 40);
 #endif
+
+  NVS.begin();
+  loadSettings();
+
+  BLE::startAdvertising();
 }
 
 void loop()
